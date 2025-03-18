@@ -54,16 +54,6 @@ public class CartController {
 		return new ResponseEntity<CartItem>(updatedCartItem, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/cart")
-	public ResponseEntity<Cart> retrieveCartByUserId(@RequestHeader("Authorization") String jwt)
-			throws CartException, UserException {
-
-		User user = userService.retrieveUserByJwt(jwt);
-		Cart cart = cartService.retrieveCartByUserId(user.getId());
-
-		return new ResponseEntity<Cart>(cart, HttpStatus.ACCEPTED);
-	}
-
 	@GetMapping("/cart/totalBill")
 	public ResponseEntity<Double> calculateTotalBill(@RequestHeader("Authorization") String jwt)
 			throws CartException, UserException {
@@ -73,6 +63,16 @@ public class CartController {
 		double totalBill = cartService.calculateTotalBill(cart);
 
 		return new ResponseEntity<Double>(totalBill, HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping("/cart")
+	public ResponseEntity<Cart> retrieveCartByUserId(@RequestHeader("Authorization") String jwt)
+			throws CartException, UserException {
+
+		User user = userService.retrieveUserByJwt(jwt);
+		Cart cart = cartService.retrieveCartByUserId(user.getId());
+
+		return new ResponseEntity<Cart>(cart, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/cart-item/{cartItemId}/delete")
